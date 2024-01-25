@@ -59,6 +59,8 @@ class User(AbstractBaseUser, PermissionsMixin):
     published_date = models.DateTimeField(auto_now=True)
 
     objects = UserManager()
+
+    
     def __str__(self):
         return self.email
 
