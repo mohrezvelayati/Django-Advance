@@ -12,6 +12,8 @@ from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.filters import SearchFilter, OrderingFilter
 from .pagination import DefaultPagination
 
+
+
 """@api_view(["GET","POST"])
 @permission_classes([IsAuthenticatedOrReadOnly])
 def postList(request):
@@ -52,7 +54,7 @@ class PostList(ListCreateAPIView):
     queryset = Post.objects.filter(status = True)
 
 
-    
+
 
 """@api_view(["GET", "PUT", "DELETE"])
 @permission_classes([IsAuthenticatedOrReadOnly])
@@ -70,6 +72,7 @@ def postDetail(request,id):
     elif request.method == "DELETE":
         post.delete()
         return Response({"Detail": "Item removed Successfully"})"""
+
 
 
 """
@@ -147,3 +150,4 @@ class CategoryModelViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticatedOrReadOnly]
     serializer_class = CategorySerializer
     queryset = Category.objects.all()
+
