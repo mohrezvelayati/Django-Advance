@@ -10,3 +10,8 @@ djangorestframework
 markdown
 django-filter
 drf-yasg[validation]
+djangorestframework-simplejwt
+
+
+# email thirdparty modules
+django-mail-templated

@@ -21,15 +21,18 @@ class RegistrationSerializer(serializers.ModelSerializer):
         if attrs.get('password') != attrs.get('password_confirm'):
             raise serializers.ValidationError({'detail':'password doesnt match'})
         
+        
         try:
             validate_password(attrs.get('password'))
         except exceptions.ValidationError as e:
-            raise serializers.ValidationError({'password':list(e.messages)})
-
+            raise serializers.ValidationError({'password': list(e.messages)})
+        
+        return super().validate(attrs)
 
     
     def create(self, validated_data):
-        return super().create(validated_data)
+        validated_data.pop('password_confirm', None)
+        return User.objects.create_user(**validated_data)
 
 
 
@@ -79,6 +82,9 @@ class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
     
     def validate(self, attrs):
         validated_data = super().validate(attrs)
+        '''here we define if user isnt verified show error'''
+        if not self.user.is_verified:
+            raise serializers.ValidationError({'detail':'user is not verified'})
         validated_data['email'] = self.user.email
         validated_data['user_id'] = self.user.id
         return validated_data
@@ -111,3 +117,25 @@ class ProfileSerializer(serializers.ModelSerializer):
         model = Profile
         fields = ('user_id', 'email', 'first_name', 'last_name', 'image', 'description')
         read_only_field = ['email']
+
+
+
+
+class TestEmailSerializer(serializers.Serializer):
+    pass
+
+
+
+class ActivationResendSerializer(serializers.Serializer):
+    email = serializers.EmailField(required=True)
+
+    def validate(self, attrs):
+        email = attrs.get('email')
+        try:
+            user_obj = User.objects.get(email=email)
+        except User.DoesNotExist:
+            raise serializers.ValidationError({'detail':'user does not exist'})
+        if user_obj.is_verified:
+            raise serializers.ValidationError({'detail':'user is already activated and verified'})
+        attrs['user'] = user_obj
+        return super().validate(attrs)
