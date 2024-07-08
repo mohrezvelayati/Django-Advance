@@ -1,17 +1,22 @@
 from rest_framework.decorators import api_view, permission_classes
-from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
+from rest_framework.permissions import (
+    IsAuthenticated,
+    IsAuthenticatedOrReadOnly,
+)
 from rest_framework.response import Response
 from .serializers import PostSerializer, CategorySerializer
 from blog.models import Post, Category
 from django.shortcuts import get_object_or_404
 from rest_framework.views import APIView
 from rest_framework import viewsets
-from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
+from rest_framework.generics import (
+    ListCreateAPIView,
+    RetrieveUpdateDestroyAPIView,
+)
 from .permissions import IsOwnerOrReadOnly
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.filters import SearchFilter, OrderingFilter
 from .pagination import DefaultPagination
-
 
 
 """@api_view(["GET","POST"])
@@ -26,7 +31,7 @@ def postList(request):
         serializer.is_valid(raise_exception=True)
         serializer.save()
         return Response(serializer.data)"""
-        
+
 """
 class PostList(APIView):
     ''''Getting list of posts and creating new posts''''
@@ -47,13 +52,13 @@ class PostList(APIView):
         return Response(serializer.data)
 """
 
+
 class PostList(ListCreateAPIView):
-    '''Getting list of posts and creating new posts'''
+    """Getting list of posts and creating new posts"""
+
     permission_classes = [IsAuthenticatedOrReadOnly]
     serializer_class = PostSerializer
-    queryset = Post.objects.filter(status = True)
-
-
+    queryset = Post.objects.filter(status=True)
 
 
 """@api_view(["GET", "PUT", "DELETE"])
@@ -72,7 +77,6 @@ def postDetail(request,id):
     elif request.method == "DELETE":
         post.delete()
         return Response({"Detail": "Item removed Successfully"})"""
-
 
 
 """
@@ -104,11 +108,11 @@ class PostDetail(APIView):
 
 
 class PostDetail(RetrieveUpdateDestroyAPIView):
-    '''Getting detail of the post and edit + removing it'''
+    """Getting detail of the post and edit + removing it"""
+
     permission_classes = [IsAuthenticatedOrReadOnly]
     serializer_class = PostSerializer
     queryset = Post.objects.filter(status=True)
-
 
 
 class PostModelViewSet(viewsets.ModelViewSet):
@@ -116,13 +120,16 @@ class PostModelViewSet(viewsets.ModelViewSet):
     serializer_class = PostSerializer
     queryset = Post.objects.filter(status=True)
     filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
-    filterset_fields = {'category':["exact","in"], 'status':["exact"], 'author':["exact"]}
-    search_fields = ['title']
-    ordering_fields = ['published_date']
+    filterset_fields = {
+        "category": ["exact", "in"],
+        "status": ["exact"],
+        "author": ["exact"],
+    }
+    search_fields = ["title"]
+    ordering_fields = ["published_date"]
     pagination_class = DefaultPagination
 
-
-    '''We delete this codes BECAUSE ModelViewSet has them 
+    """We delete this codes BECAUSE ModelViewSet has them 
 
     def list(self, request):
         serializer = self.serializer_class(self.queryset, many=True)
@@ -144,10 +151,10 @@ class PostModelViewSet(viewsets.ModelViewSet):
         pass
 
     def destroy(self, request, pk=None):
-        pass'''
-    
+        pass"""
+
+
 class CategoryModelViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticatedOrReadOnly]
     serializer_class = CategorySerializer
     queryset = Category.objects.all()
-
