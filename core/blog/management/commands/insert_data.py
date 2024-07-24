@@ -23,7 +23,7 @@ class Command(BaseCommand):
         self.fake = Faker()
 
     def handle(self, *args, **options):
-        user = User.objects.create_user(email=self.fake.email(),password="testpass@123")
+        user = User.objects.create_user(email=self.fake.email(),password=" ")
         profile = Profile.objects.get(user=user)
         profile.first_name = self.fake.first_name()
         profile.last_name = self.fake.last_name()

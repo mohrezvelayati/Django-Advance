@@ -8,7 +8,6 @@ from django.views.generic import (
     UpdateView,
     DeleteView,
 )
-from django.http import HttpResponse
 from .models import Post
 from django.shortcuts import get_object_or_404
 from .forms import PostForm
@@ -78,6 +77,10 @@ class PostListView(PermissionRequiredMixin, LoginRequiredMixin, ListView):
 
     context_object_name = "posts"
     # paginate_by = 2
+
+
+class PostListApiView(TemplateView):
+    template_name = "blog/post_list_api.html"
 
 
 class PostDetailView(LoginRequiredMixin, DetailView):

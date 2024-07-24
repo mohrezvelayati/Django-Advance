@@ -28,7 +28,7 @@
     </script>
 
     <script>
-        $.get('http://127.0.0.1:8000/blog/post/api/',  // url
+        $.get('/blog/api/v1/post/',  // url
             function (data, textStatus, jqXHR) {  // success callback
                 wrapper = $('#post-wrapper');
                 for (post of data.results){
