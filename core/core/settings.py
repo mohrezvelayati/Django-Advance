@@ -50,7 +50,8 @@ INSTALLED_APPS = [
     "django_filters",
     "drf_yasg",
     "mail_templated",
-    'corsheaders'
+    'corsheaders',
+    'django_celery_beat'
 ]
 
 MIDDLEWARE = [
@@ -191,3 +192,14 @@ CORS_ALLOW_ALL_ORIGINS = True
 
 # celery configs
 CELERY_BROKER_URL = 'redis://redis:6379/1'
+
+'''
+# Not Used --> insted in core.celery --> @app.on_after_configure
+
+CELERY_BEAT_SCHEDULE = {
+    'send_email': {
+        'task':'accounts.tasks.sendEmail',
+        'schedule':5
+    }
+}
+'''
