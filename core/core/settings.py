@@ -51,7 +51,7 @@ INSTALLED_APPS = [
     "drf_yasg",
     "mail_templated",
     'corsheaders',
-    'django_celery_beat'
+    'django_celery_beat',
 ]
 
 MIDDLEWARE = [
@@ -203,3 +203,15 @@ CELERY_BEAT_SCHEDULE = {
     }
 }
 '''
+
+
+# caching configs
+CACHES = {
+    "default": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": "redis://redis/2",
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+        }
+    }
+}
