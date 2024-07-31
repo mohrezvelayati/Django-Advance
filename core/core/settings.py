@@ -51,7 +51,7 @@ INSTALLED_APPS = [
     "drf_yasg",
     "mail_templated",
     'corsheaders',
-    'django_celery_beat',
+    # 'django_celery_beat',
 ]
 
 MIDDLEWARE = [
