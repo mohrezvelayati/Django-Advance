@@ -6,8 +6,39 @@
     <title>Document</title>
 </head>
 <body>
-    <h1> index </h1>
-    <p>{{name}}</p>
-    <p>{{posts}}</p>
+    <h1> Blog Posts </h1>
+    <ol id="post-wrapper">
+    <!-- <div>
+        <a href="" > <h2> {{post.id}} - {{post.title}}</h2> </a>
+        <a href="">
+            <h5>Edit</h5>
+        </a>
+        <a href="">
+            <h5>Delete</h5>
+        </a>
+        <p> {{post.author.first_name}} {{post.author.last_name}} - {{post.content}}</p>
+        <p> {{post.published_date}}</p>
+    </div> -->
+    </ol>
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"
+        integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
+        crossorigin="anonymous" referrerpolicy="no-referrer">
+    </script>
+
+    <script>
+        $.get('http://127.0.0.1:8000/blog/post/api/',  // url
+            function (data, textStatus, jqXHR) {  // success callback
+                wrapper = $('#post-wrapper');
+                for (post of data.results){
+                    wrapper.append('<li><a href="${post.absolute_url}"> <h2>${post.title}</h2> </a></li>')
+                }
+                // alert('status: ' + textStatus + ', data:' + data);
+                // console.log(data);
+            });
+    </script>
+
+    
 </body>
 </html>

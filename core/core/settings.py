@@ -50,11 +50,14 @@ INSTALLED_APPS = [
     "django_filters",
     "drf_yasg",
     "mail_templated",
+    'corsheaders',
+    # 'django_celery_beat',
 ]
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
+    "corsheaders.middleware.CorsMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
@@ -181,3 +184,34 @@ EMAIL_PORT = 25
 
 """this was sending email with terminal"""
 # EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+
+
+CORS_ALLOW_ALL_ORIGINS = True
+
+
+
+# celery configs
+CELERY_BROKER_URL = 'redis://redis:6379/1'
+
+'''
+# Not Used --> insted in core.celery --> @app.on_after_configure
+
+CELERY_BEAT_SCHEDULE = {
+    'send_email': {
+        'task':'accounts.tasks.sendEmail',
+        'schedule':5
+    }
+}
+'''
+
+
+# caching configs
+CACHES = {
+    "default": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": "redis://redis/2",
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+        }
+    }
+}
